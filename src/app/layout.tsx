@@ -5,9 +5,12 @@ import {
   ColorSchemeScript,
   mantineHtmlProps,
 } from "@mantine/core";
-import { theme } from "../theme";
+import { theme } from "../lib/theme";
+import { Metadata } from "next";
+import { Layout } from "../components/layout";
+import { TransactionsProvider } from "../features/transactions/providers/transaction-provider";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Mantine Next.js template",
   description: "I am using Mantine with Next.js!",
 };
@@ -16,7 +19,7 @@ export default function RootLayout({ children }: { children: any }) {
   return (
     <html lang="en" {...mantineHtmlProps}>
       <head>
-        <ColorSchemeScript />
+        <ColorSchemeScript defaultColorScheme="light" />
         <link rel="shortcut icon" href="/favicon.svg" />
         <meta
           name="viewport"
@@ -24,7 +27,11 @@ export default function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+        <MantineProvider theme={theme}>
+          <TransactionsProvider>
+            <Layout>{children}</Layout>
+          </TransactionsProvider>
+        </MantineProvider>
       </body>
     </html>
   );
