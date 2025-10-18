@@ -11,10 +11,12 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { Navbar } from "./navbar";
 import { NewPaymentButton } from "../../features/transactions/components/new-payment-button";
+import { usePathname } from "next/navigation";
 
 export type LayoutProps = {} & React.PropsWithChildren;
 
 export function Layout({ children }: LayoutProps) {
+  const pathname = usePathname();
   const [opened, { toggle, close }] = useDisclosure(false);
 
   return (
@@ -57,7 +59,7 @@ export function Layout({ children }: LayoutProps) {
 
       <AppShellMain>{children}</AppShellMain>
 
-      <NewPaymentButton />
+      {!pathname.startsWith("/pix") && <NewPaymentButton />}
     </AppShell>
   );
 }

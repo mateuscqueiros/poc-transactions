@@ -2,14 +2,11 @@
 
 import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { KeyTypeStep, KeyTypeStepFields } from "./steps/key-type-step";
-import { InputKeyStep, InputKeyStepFields } from "./steps/input-key-step";
-import {
-  ConfirmReceiverStep,
-  ConfirmReceiverStepFields,
-} from "./steps/confirm-receiver";
-import { TypeValueStep, TypeValueStepFields } from "./steps/type-value-step";
-import { ReviewStep, ReviewStepFields } from "./steps/review-step";
+import { KeyTypeStep } from "./steps/key-type-step";
+import { InputKeyStep } from "./steps/input-key-step";
+import { ConfirmReceiverStep } from "./steps/confirm-receiver";
+import { TypeValueStep } from "./steps/type-value-step";
+import { ReviewStep } from "./steps/review-step";
 import { StepControls } from "./step-controls";
 
 export type BasicPixFormType = {

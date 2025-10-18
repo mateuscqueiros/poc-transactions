@@ -69,6 +69,12 @@ export function InputKeyStep() {
           error={errors.key?.message}
         />
       </label>
+
+      {errors.key && (
+        <Text c="red" size="sm" mt="xs">
+          {errors.key.message}
+        </Text>
+      )}
     </>
   );
 }

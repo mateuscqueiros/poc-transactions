@@ -5,6 +5,7 @@ import {
   IconHome2,
   IconLogout,
   IconSwitchHorizontal,
+  IconTransfer,
   IconX,
 } from "@tabler/icons-react";
 import { ActionIcon, Code, Group } from "@mantine/core";
@@ -15,6 +16,7 @@ import { usePathname } from "next/navigation";
 const data = [
   { link: "/", label: "Início", icon: IconHome2 },
   { link: "/history", label: "Histórico", icon: IconClock },
+  { link: "/pix", label: "Área Pix", icon: IconTransfer },
 ];
 
 interface NavbarProps {
@@ -26,16 +28,15 @@ export function Navbar({ onClose, isMobile }: NavbarProps) {
   const pathname = usePathname();
 
   const links = data.map((item) => {
-    const isActive = pathname === item.link;
+    const isActive =
+      pathname === item.link || pathname.startsWith(item.link + "/");
     return (
       <Link
         className={classes.link}
         data-active={isActive || undefined}
         href={item.link}
         key={item.label}
-        onClick={() => {
-          onClose?.();
-        }}
+        onClick={() => onClose?.()}
       >
         <item.icon className={classes.linkIcon} stroke={1.5} />
         <span>{item.label}</span>

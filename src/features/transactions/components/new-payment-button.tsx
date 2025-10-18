@@ -10,7 +10,7 @@ export function NewPaymentButton() {
   return (
     <Affix position={{ bottom: 30, right: 30 }}>
       <Button
-        onClick={() => router.replace("/transactions/pix")}
+        onClick={() => router.replace("/pix")}
         radius="xl"
         leftSection={
           <Image
