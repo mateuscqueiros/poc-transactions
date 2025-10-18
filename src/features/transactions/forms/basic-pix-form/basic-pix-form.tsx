@@ -2,12 +2,15 @@
 
 import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { KeyTypeStep } from "./steps/key-type-step";
-import { InputKeyStep } from "./steps/input-key-step";
-import { ConfirmReceiverStep } from "./steps/confirm-receiver";
-import { TypeValueStep } from "./steps/type-value-step";
-import { ReviewStep } from "./steps/review-step";
 import { StepControls } from "./step-controls";
+import {
+  ConfirmReceiverStep,
+  InputKeyStep,
+  KeyTypeStep,
+  ReviewStep,
+  TypeValueStep,
+} from "./steps";
+import axios from "axios";
 
 export type BasicPixFormType = {
   keyType: string;
@@ -17,7 +20,8 @@ export type BasicPixFormType = {
 };
 
 export function BasicPixForm() {
-  const [step, setStep] = useState(1);
+  const [activeStep, setActiveStep] = useState(1);
+
   const methods = useForm<BasicPixFormType>({
     defaultValues: {
       keyType: "",
@@ -25,42 +29,72 @@ export function BasicPixForm() {
       receiverName: "",
       amount: 0,
     },
+    mode: "onBlur",
   });
 
-  const { handleSubmit } = methods;
-
-  const fieldsPerStep: (keyof BasicPixFormType)[][] = [
-    ["keyType"],
-    ["key"],
-    [],
-    ["amount"],
-    [],
+  const steps = [
+    {
+      fields: ["keyType"],
+      component: <KeyTypeStep />,
+    },
+    {
+      fields: ["key"],
+      component: <InputKeyStep />,
+    },
+    {
+      fields: ["amount"],
+      component: <TypeValueStep />,
+    },
+    {
+      fields: ["receiverName"],
+      component: <ConfirmReceiverStep />,
+    },
   ];
 
-  const prevStep = () => setStep((s) => s - 1);
+  const prevStep = () => setActiveStep((s) => s - 1);
   const nextStep = async () => {
-    const fieldsToValidate = fieldsPerStep[step - 1];
+    const fieldsToValidate = steps[activeStep - 1]
+      .fields as (keyof BasicPixFormType)[];
+
     const isValid = await methods.trigger(fieldsToValidate);
     if (!isValid) return;
-    setStep((s) => s + 1);
+    setActiveStep((s) => s + 1);
   };
 
-  const onSubmit = (data: BasicPixFormType) => {
-    console.log("PIX enviado:", data);
+  const onSubmit = async ({ key, keyType, amount }: BasicPixFormType) => {
+    try {
+      const response = await axios.post("/api/transfer", {
+        key,
+        keyType,
+        amount,
+      });
+      console.log(response.data);
+    } catch (error: any) {
+      console.error(error);
+    }
   };
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {step === 1 && <KeyTypeStep />}
-        {step === 2 && <InputKeyStep />}
-        {step === 3 && <ConfirmReceiverStep />}
-        {step === 4 && <TypeValueStep />}
-        {step === 5 && <ReviewStep />}
+      <form
+        onSubmit={methods.handleSubmit(onSubmit)}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          minHeight: 400,
+        }}
+      >
+        <div>
+          {steps.map(
+            ({ component }, index) =>
+              activeStep === index + 1 && <div key={index}>{component}</div>,
+          )}
+        </div>
 
         <StepControls
-          active={step}
-          total={5}
+          active={activeStep}
+          total={steps.length}
           onNext={nextStep}
           onPrev={prevStep}
         />

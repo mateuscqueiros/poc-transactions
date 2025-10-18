@@ -1,28 +1,72 @@
 "use client";
 
-import { Input, Text } from "@mantine/core";
+import { Input, Text, Stack, Container } from "@mantine/core";
 import { useFormContext } from "react-hook-form";
 import { IMaskInput } from "react-imask";
 import { BasicPixFormType } from "../basic-pix-form";
 
 export const InputKeyStepFields = ["key"] as const;
 
-const inputConfigs = {
+const inputSchema = {
   cpf: {
     label: "CPF",
     placeholder: "000.000.000-00",
     mask: "000.000.000-00",
+    validation: {
+      required: "Digite seu CPF",
+      pattern: {
+        value: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
+        message: "CPF inválido",
+      },
+    },
   },
-  telefone: {
+  cnpj: {
+    label: "CNPJ",
+    placeholder: "00.000.000/0000-00",
+    mask: "00.000.000/0000-00",
+    validation: {
+      required: "Digite seu CNPJ",
+      pattern: {
+        value: /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/,
+        message: "CNPJ inválido",
+      },
+    },
+  },
+  phone: {
     label: "Telefone",
     placeholder: "(99) 99999-9999",
     mask: "(00) 00000-0000",
+    validation: {
+      required: "Digite seu telefone",
+      pattern: {
+        value: /^\(\d{2}\) \d{5}-\d{4}$/,
+        message: "Telefone inválido",
+      },
+    },
   },
-  email: { label: "E-mail", placeholder: "exemplo@dominio.com", mask: "" },
-  aleatoria: {
+  email: {
+    label: "E-mail",
+    placeholder: "exemplo@dominio.com",
+    mask: "",
+    validation: {
+      required: "Digite seu e-mail",
+      pattern: {
+        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        message: "E-mail inválido",
+      },
+    },
+  },
+  random: {
     label: "Chave aleatória",
     placeholder: "Digite a chave aleatória",
     mask: "",
+    validation: {
+      required: "Digite a chave aleatória",
+      minLength: {
+        value: 8,
+        message: "A chave deve ter pelo menos 8 caracteres",
+      },
+    },
   },
 };
 
@@ -34,12 +78,9 @@ export function InputKeyStep() {
     formState: { errors },
   } = useFormContext<BasicPixFormType>();
   const keyType = watch("keyType");
+  const keyValue = watch("key");
 
-  const config = inputConfigs[keyType as keyof typeof inputConfigs];
-
-  register("key", { required: "Digite sua chave" });
-
-  if (!config) {
+  if (!keyType || !(keyType in inputSchema)) {
     return (
       <Text c="dimmed" size="sm">
         Escolha o tipo de chave primeiro.
@@ -47,34 +88,37 @@ export function InputKeyStep() {
     );
   }
 
+  const config = inputSchema[keyType as keyof typeof inputSchema];
+
   return (
     <>
-      <Text size="lg" fw={500} mb="sm">
+      <Text size="lg" fw={500}>
         Digite a chave PIX
       </Text>
 
-      <label>
-        {inputConfigs[keyType as keyof typeof inputConfigs].label}
+      <Container mt="sm" p={0}>
+        <Text size="sm" mb={4}>
+          {config.label}
+        </Text>
+
         <Input
-          label={config.label}
+          size="md"
           placeholder={config.placeholder}
           component={IMaskInput}
           mask={config.mask || undefined}
           type={keyType === "email" ? "email" : "text"}
-          {...register("key")}
-          value={watch("key") || ""}
-          onChange={(e: any) =>
-            setValue("key", e.target.value, { shouldValidate: true })
-          }
+          {...register("key", config.validation)}
+          value={keyValue || ""}
+          onChange={(e: any) => setValue("key", e.target.value)}
           error={errors.key?.message}
         />
-      </label>
 
-      {errors.key && (
-        <Text c="red" size="sm" mt="xs">
-          {errors.key.message}
-        </Text>
-      )}
+        {errors.key && (
+          <Text c="red" size="sm" mt="xs">
+            {errors.key.message}
+          </Text>
+        )}
+      </Container>
     </>
   );
 }

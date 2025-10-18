@@ -1,4 +1,4 @@
-import { TransactionClass } from "../types";
+import { TransactionClass, TransactionKeyType } from "../types";
 
 export function formatClass(className: TransactionClass) {
   switch (className) {
@@ -12,6 +12,21 @@ export function formatClass(className: TransactionClass) {
       return "Transferência";
     case TransactionClass.Deposit:
       return "Depósito";
+  }
+}
+
+export function formatKeyType(keyType: TransactionKeyType) {
+  switch (keyType) {
+    case TransactionKeyType.CPF:
+      return "CPF";
+    case TransactionKeyType.CNPJ:
+      return "CNPJ";
+    case TransactionKeyType.Phone:
+      return "Telefone";
+    case TransactionKeyType.Email:
+      return "E-mail";
+    case TransactionKeyType.Random:
+      return "Chave aleatória";
   }
 }
 

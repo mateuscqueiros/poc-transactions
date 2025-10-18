@@ -1,4 +1,4 @@
-import { Button, Group } from "@mantine/core";
+import { Button, Divider, Group } from "@mantine/core";
 
 export type StepControlsProps = {
   active: number;
@@ -17,24 +17,27 @@ export function StepControls({
   const isLastStep = active === total;
 
   return (
-    <Group justify="space-between" mt="md">
-      <div>
-        {!isFirstStep && (
-          <Button type="button" disabled={isFirstStep} onClick={onPrev}>
-            Voltar
-          </Button>
-        )}
-      </div>
+    <div style={{ marginTop: "2rem" }}>
+      <Divider />
+      <Group justify="space-between" mt="md">
+        <div>
+          {!isFirstStep && (
+            <Button type="button" disabled={isFirstStep} onClick={onPrev}>
+              Voltar
+            </Button>
+          )}
+        </div>
 
-      <div>
-        {!isLastStep ? (
-          <Button type="button" onClick={onNext}>
-            Continuar
-          </Button>
-        ) : (
-          <Button type="submit">Finalizar</Button>
-        )}
-      </div>
-    </Group>
+        <div>
+          {!isLastStep ? (
+            <Button type="button" onClick={onNext}>
+              Continuar
+            </Button>
+          ) : (
+            <Button type="submit">Finalizar</Button>
+          )}
+        </div>
+      </Group>
+    </div>
   );
 }

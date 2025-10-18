@@ -3,8 +3,6 @@
 import { useFormContext } from "react-hook-form";
 import { CurrencyInput } from "../../../../../components/forms/inputs/currency-input";
 
-export const TypeValueStepFields = ["amount"] as const;
-
 export function TypeValueStep() {
   const {
     watch,

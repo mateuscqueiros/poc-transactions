@@ -8,6 +8,8 @@ import {
   Title,
   Modal,
   Group,
+  Text,
+  ScrollArea,
 } from "@mantine/core";
 import { PageLayout } from "../../components/layout/page-layout";
 import Link from "next/link";
@@ -32,7 +34,12 @@ const operations = [
 export default function CreatePage() {
   const [pixModalOpen, setPixModalOpen] = useState(false);
   return (
-    <PageLayout title="Área Pix">
+    <PageLayout
+      title="Área Pix"
+      description={
+        <>Bem vindo ao Área Pix, onde você pode realizar transferências.</>
+      }
+    >
       <Title order={2} style={{ marginBottom: "1rem" }}>
         Selecione a operação
       </Title>
@@ -51,9 +58,15 @@ export default function CreatePage() {
 
       <Modal
         size="lg"
+        mih={800}
         title="Transferir via PIX"
         opened={pixModalOpen}
         onClose={() => setPixModalOpen(false)}
+        styles={{
+          root: {
+            height: 800,
+          },
+        }}
       >
         <BasicPixForm />
       </Modal>
