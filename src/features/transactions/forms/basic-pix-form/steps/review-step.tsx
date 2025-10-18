@@ -1,6 +1,8 @@
 import { Card, Text } from "@mantine/core";
 import { useFormContext } from "react-hook-form";
 
+export const ReviewStepFields = [] as const;
+
 export function ReviewStep() {
   const { watch } = useFormContext();
   const keyType = watch("keyType");

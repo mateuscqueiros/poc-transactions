@@ -2,14 +2,17 @@
 
 import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { Button, Card, Group } from "@mantine/core";
-import { KeyTypeStep } from "./steps/key-type-step";
-import { InputKeyStep } from "./steps/input-key-step";
-import { ConfirmReceiverStep } from "./steps/confirm-receiver";
-import { TypeValueStep } from "./steps/type-value-step";
-import { ReviewStep } from "./steps/review-step";
+import { KeyTypeStep, KeyTypeStepFields } from "./steps/key-type-step";
+import { InputKeyStep, InputKeyStepFields } from "./steps/input-key-step";
+import {
+  ConfirmReceiverStep,
+  ConfirmReceiverStepFields,
+} from "./steps/confirm-receiver";
+import { TypeValueStep, TypeValueStepFields } from "./steps/type-value-step";
+import { ReviewStep, ReviewStepFields } from "./steps/review-step";
+import { StepControls } from "./step-controls";
 
-type PixData = {
+export type BasicPixFormType = {
   keyType: string;
   key: string;
   receiverName: string;
@@ -18,7 +21,7 @@ type PixData = {
 
 export function BasicPixForm() {
   const [step, setStep] = useState(1);
-  const methods = useForm<PixData>({
+  const methods = useForm<BasicPixFormType>({
     defaultValues: {
       keyType: "",
       key: "",
@@ -27,52 +30,43 @@ export function BasicPixForm() {
     },
   });
 
-  const { handleSubmit, setValue } = methods;
+  const { handleSubmit } = methods;
 
-  const nextStep = () => {
+  const fieldsPerStep: (keyof BasicPixFormType)[][] = [
+    ["keyType"],
+    ["key"],
+    [],
+    ["amount"],
+    [],
+  ];
+
+  const prevStep = () => setStep((s) => s - 1);
+  const nextStep = async () => {
+    const fieldsToValidate = fieldsPerStep[step - 1];
+    const isValid = await methods.trigger(fieldsToValidate);
+    if (!isValid) return;
     setStep((s) => s + 1);
   };
-  const prevStep = () => setStep((s) => s - 1);
 
-  const onSubmit = (data: PixData) => {
+  const onSubmit = (data: BasicPixFormType) => {
     console.log("PIX enviado:", data);
-    alert("✅ PIX enviado com sucesso!");
   };
 
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* STEP 1 - Escolher tipo de chave */}
         {step === 1 && <KeyTypeStep />}
-
-        {/* STEP 2 - Digitar chave */}
         {step === 2 && <InputKeyStep />}
-
-        {/* STEP 3 - Confirmar destinatário */}
         {step === 3 && <ConfirmReceiverStep />}
-
-        {/* STEP 4 - Valor */}
         {step === 4 && <TypeValueStep />}
-
-        {/* STEP 5 - Resumo */}
         {step === 5 && <ReviewStep />}
 
-        <Group justify="space-between" mt="md">
-          <div>
-            <Button type="button" disabled={step === 1} onClick={prevStep}>
-              Voltar
-            </Button>
-          </div>
-
-          <div>
-            {step !== 5 && (
-              <Button type="button" onClick={nextStep}>
-                Continuar
-              </Button>
-            )}
-            {step === 5 && <Button type="submit">Finalizar</Button>}
-          </div>
-        </Group>
+        <StepControls
+          active={step}
+          total={5}
+          onNext={nextStep}
+          onPrev={prevStep}
+        />
       </form>
     </FormProvider>
   );

@@ -1,28 +1,36 @@
-import { Text } from "@mantine/core";
-import { useFormContext, Controller } from "react-hook-form";
+"use client";
+
+import { useFormContext } from "react-hook-form";
 import { CurrencyInput } from "../../../../../components/forms/inputs/currency-input";
 
+export const TypeValueStepFields = ["amount"] as const;
+
 export function TypeValueStep() {
-  const { control } = useFormContext();
+  const {
+    watch,
+    setValue,
+    formState: { errors },
+    register,
+  } = useFormContext<any>();
+  const amount = watch("amount");
+
+  register("amount", {
+    required: "O valor é obrigatório",
+    min: { value: 0.01, message: "O valor mínimo é R$ 0,01" },
+  });
 
   return (
-    <>
-      <Text size="lg" fw={500} mb="sm">
-        Digite o valor do PIX
-      </Text>
-
-      <Controller
-        name="amount"
-        control={control}
-        rules={{ required: true, min: 1 }}
-        render={({ field }) => (
-          <CurrencyInput
-            {...field}
-            onChange={(val: any) => field.onChange(val)}
-            placeholder="R$ 0,00"
-          />
-        )}
-      />
-    </>
+    <CurrencyInput
+      label="Valor"
+      leftSection="R$"
+      placeholder="0,00"
+      value={amount ?? ""}
+      onChange={(val) => setValue("amount", val, { shouldValidate: true })}
+      error={
+        typeof errors.amount?.message === "string"
+          ? errors.amount.message
+          : undefined
+      }
+    />
   );
 }

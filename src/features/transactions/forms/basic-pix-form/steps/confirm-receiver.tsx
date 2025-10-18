@@ -1,10 +1,11 @@
 import { Card, Text } from "@mantine/core";
 import { useFormContext } from "react-hook-form";
 
+export const ConfirmReceiverStepFields = [] as const;
+
 export function ConfirmReceiverStep() {
   const { watch } = useFormContext();
 
-  const receiverName = watch("receiverName");
   const key = watch("key");
 
   return (

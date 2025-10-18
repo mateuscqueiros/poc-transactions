@@ -1,50 +1,19 @@
-import { Button, Card, Grid, Group, Radio, Text } from "@mantine/core";
+import { Card, Grid, Group, Radio, Text } from "@mantine/core";
 import { useFormContext } from "react-hook-form";
+import { BasicPixFormType } from "../basic-pix-form";
 
-const keyTypes = [
-  { name: "CPF/CNPJ", value: "cpf" },
-  { name: "Celular", value: "telefone" },
-  { name: "E-mail", value: "email" },
-  { name: "Chave aleatória", value: "aleatoria" },
-];
-
-function KeyTypeCard({
-  name,
-  value,
-  selected,
-}: (typeof keyTypes)[0] & { selected: boolean }) {
-  const { setValue } = useFormContext();
-  return (
-    <Card
-      withBorder
-      radius="md"
-      p="md"
-      onClick={() => setValue("keyType", value)}
-      style={{
-        cursor: "pointer",
-        borderColor: selected
-          ? "var(--mantine-color-itau-orange-6)"
-          : "var(--mantine-color-gray-3)",
-        backgroundColor: selected
-          ? "var(--mantine-primary-color-light)"
-          : "transparent",
-      }}
-    >
-      <Group justify="space-between" align="center">
-        <Text fw={selected ? 600 : 400}>{name}</Text>
-        <Radio
-          value={value}
-          checked={selected}
-          onChange={() => setValue("keyType", value)}
-        />
-      </Group>
-    </Card>
-  );
-}
+export const KeyTypeStepFields = ["keyType"] as const;
 
 export function KeyTypeStep() {
-  const { watch, setValue } = useFormContext();
+  const {
+    register,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useFormContext<BasicPixFormType>();
   const keyType = watch("keyType");
+
+  register("keyType", { required: "Selecione um tipo de chave" });
 
   return (
     <>
@@ -68,6 +37,47 @@ export function KeyTypeStep() {
           })}
         </Grid>
       </Radio.Group>
+
+      {errors.keyType && (
+        <Text c="red" size="sm" mt="xs">
+          {errors.keyType.message}
+        </Text>
+      )}
     </>
+  );
+}
+
+const keyTypes = [
+  { name: "CPF/CNPJ", value: "cpf" },
+  { name: "Celular", value: "telefone" },
+  { name: "E-mail", value: "email" },
+  { name: "Chave aleatória", value: "aleatoria" },
+];
+
+function KeyTypeCard({
+  name,
+  value,
+  selected,
+}: (typeof keyTypes)[0] & { selected: boolean }) {
+  const { setValue } = useFormContext<BasicPixFormType>();
+  return (
+    <Card
+      withBorder
+      radius="md"
+      p="md"
+      onClick={() => setValue("keyType", value)}
+      style={{
+        cursor: "pointer",
+      }}
+    >
+      <Group justify="space-between" align="center">
+        <Text fw={selected ? 600 : 400}>{name}</Text>
+        <Radio
+          value={value}
+          checked={selected}
+          onChange={() => setValue("keyType", value)}
+        />
+      </Group>
+    </Card>
   );
 }

@@ -1,44 +1,44 @@
 "use client";
 
-import { TextInput } from "@mantine/core";
-import { Controller, useFormContext } from "react-hook-form";
+import { TextInput, TextInputProps } from "@mantine/core";
 
-export function CurrencyInput({ name }: { name: string }) {
-  const { control } = useFormContext();
+interface CurrencyInputProps
+  extends Omit<TextInputProps, "onChange" | "value"> {
+  value?: string | number;
+  onChange?: (value: number) => void;
+}
 
-  function formatCurrency(value: number | string) {
-    if (!value && value !== 0) return "";
-    const number =
-      typeof value === "number"
-        ? value
-        : parseFloat(value.replace(/\D/g, "")) / 100;
-
-    return new Intl.NumberFormat("pt-BR", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(number);
+export function CurrencyInput({
+  value,
+  onChange,
+  ...props
+}: CurrencyInputProps) {
+  function formatCurrency(val: number | string | undefined) {
+    if (val === undefined || val === null || val === "") return "";
+    const num =
+      typeof val === "number" ? val : parseFloat(val.replace(/\D/g, "")) / 100;
+    return isNaN(num)
+      ? ""
+      : new Intl.NumberFormat("pt-BR", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }).format(num);
   }
 
-  function parseCurrency(value: string) {
-    if (!value) return 0;
-    const numeric = value.replace(/\D/g, "");
-    return parseFloat(numeric) / 100;
+  function parseCurrency(val: string): number {
+    const digits = val.replace(/\D/g, "");
+    const num = parseFloat(digits) / 100;
+    return isNaN(num) ? 0 : num;
   }
 
   return (
-    <Controller
-      name={name}
-      control={control}
-      rules={{ required: true }}
-      render={({ field }) => (
-        <TextInput
-          label="Valor"
-          placeholder="0,00"
-          leftSection="R$"
-          value={formatCurrency(field.value)}
-          onChange={(e) => field.onChange(parseCurrency(e.target.value))}
-        />
-      )}
+    <TextInput
+      {...props}
+      value={formatCurrency(value)}
+      onChange={(e) => {
+        const parsed = parseCurrency(e.target.value);
+        onChange?.(parsed);
+      }}
     />
   );
 }
