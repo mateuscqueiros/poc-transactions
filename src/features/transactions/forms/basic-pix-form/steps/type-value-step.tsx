@@ -2,6 +2,7 @@
 
 import { useFormContext } from "react-hook-form";
 import { CurrencyInput } from "../../../../../components/forms/inputs/currency-input";
+import { MotionDiv } from "../../../../../components/animations/motion-div";
 
 export function TypeValueStep() {
   const {
@@ -18,17 +19,19 @@ export function TypeValueStep() {
   });
 
   return (
-    <CurrencyInput
-      label="Valor"
-      leftSection="R$"
-      placeholder="0,00"
-      value={amount ?? ""}
-      onChange={(val) => setValue("amount", val, { shouldValidate: true })}
-      error={
-        typeof errors.amount?.message === "string"
-          ? errors.amount.message
-          : undefined
-      }
-    />
+    <>
+      <CurrencyInput
+        label="Valor"
+        leftSection="R$"
+        placeholder="0,00"
+        value={amount ?? ""}
+        onChange={(val) => setValue("amount", val, { shouldValidate: true })}
+        error={
+          typeof errors.amount?.message === "string"
+            ? errors.amount.message
+            : undefined
+        }
+      />
+    </>
   );
 }

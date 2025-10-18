@@ -11,6 +11,8 @@ import {
 import { formatCurrency, formatKeyType } from "../../../lib/format";
 import { BasicPixFormType } from "../basic-pix-form";
 import { TransactionKeyType } from "../../../types";
+import { motion } from "framer-motion";
+import { MotionDiv } from "../../../../../components/animations/motion-div";
 
 export const ConfirmReceiverStepFields = [] as const;
 

@@ -11,6 +11,8 @@ import {
   TypeValueStep,
 } from "./steps";
 import axios from "axios";
+import { AnimatePresence } from "framer-motion";
+import { MotionDiv } from "../../../../components/animations/motion-div";
 
 export type BasicPixFormType = {
   keyType: string;
@@ -21,6 +23,7 @@ export type BasicPixFormType = {
 
 export function BasicPixForm() {
   const [activeStep, setActiveStep] = useState(1);
+  const [animationDirection, setAnimationDirection] = useState(1);
 
   const methods = useForm<BasicPixFormType>({
     defaultValues: {
@@ -35,24 +38,44 @@ export function BasicPixForm() {
   const steps = [
     {
       fields: ["keyType"],
-      component: <KeyTypeStep />,
+      component: (
+        <MotionDiv direction={animationDirection} key="key-type-step">
+          <KeyTypeStep />
+        </MotionDiv>
+      ),
     },
     {
       fields: ["key"],
-      component: <InputKeyStep />,
+      component: (
+        <MotionDiv direction={animationDirection} key="input-key-step">
+          <InputKeyStep />
+        </MotionDiv>
+      ),
     },
     {
       fields: ["amount"],
-      component: <TypeValueStep />,
+      component: (
+        <MotionDiv direction={animationDirection} key="type-value-step">
+          <TypeValueStep />
+        </MotionDiv>
+      ),
     },
     {
       fields: ["receiverName"],
-      component: <ConfirmReceiverStep />,
+      component: (
+        <MotionDiv direction={animationDirection} key="confirm-receiver-step">
+          <ConfirmReceiverStep />
+        </MotionDiv>
+      ),
     },
   ];
 
-  const prevStep = () => setActiveStep((s) => s - 1);
+  const prevStep = () => {
+    setAnimationDirection(-1);
+    setActiveStep((s) => s - 1);
+  };
   const nextStep = async () => {
+    setAnimationDirection(1);
     const fieldsToValidate = steps[activeStep - 1]
       .fields as (keyof BasicPixFormType)[];
 
@@ -85,12 +108,12 @@ export function BasicPixForm() {
           minHeight: 400,
         }}
       >
-        <div>
+        <AnimatePresence mode="wait">
           {steps.map(
             ({ component }, index) =>
               activeStep === index + 1 && <div key={index}>{component}</div>,
           )}
-        </div>
+        </AnimatePresence>
 
         <StepControls
           active={activeStep}

@@ -1,5 +1,6 @@
 import { Card, Text } from "@mantine/core";
 import { useFormContext } from "react-hook-form";
+import { MotionDiv } from "../../../../../components/animations/motion-div";
 
 export function ReviewStep() {
   const { watch } = useFormContext();

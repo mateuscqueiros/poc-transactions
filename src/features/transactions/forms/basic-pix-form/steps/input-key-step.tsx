@@ -1,9 +1,11 @@
 "use client";
 
-import { Input, Text, Stack, Container } from "@mantine/core";
+import { Input, Text, Container } from "@mantine/core";
 import { useFormContext } from "react-hook-form";
 import { IMaskInput } from "react-imask";
 import { BasicPixFormType } from "../basic-pix-form";
+import { motion } from "framer-motion";
+import { MotionDiv } from "../../../../../components/animations/motion-div";
 
 export const InputKeyStepFields = ["key"] as const;
 
