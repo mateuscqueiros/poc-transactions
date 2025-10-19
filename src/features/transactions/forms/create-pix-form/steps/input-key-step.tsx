@@ -1,5 +1,4 @@
-"use client";
-
+import { useEffect } from "react";
 import { Input, Text, Container } from "@mantine/core";
 import { useFormContext } from "react-hook-form";
 import { IMaskInput } from "react-imask";
@@ -60,8 +59,8 @@ const inputSchema = {
     mask: "",
     validation: {
       required: "Digite a chave aleatória",
-      minLength: {
-        value: 8,
+      pattern: {
+        value: /^.{8,}$/,
         message: "A chave deve ter pelo menos 8 caracteres",
       },
     },
@@ -74,9 +73,16 @@ export function InputKeyStep() {
     watch,
     setValue,
     formState: { errors },
+    clearErrors,
   } = useFormContext<TransactionFormType>();
+
   const keyType = watch("keyType");
   const keyValue = watch("key");
+
+  useEffect(() => {
+    setValue("key", "");
+    clearErrors("key");
+  }, [keyType, setValue, clearErrors]);
 
   if (!keyType || !(keyType in inputSchema)) {
     return (
