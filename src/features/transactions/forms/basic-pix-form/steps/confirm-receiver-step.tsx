@@ -11,17 +11,13 @@ import {
 import { formatCurrency, formatKeyType } from "../../../lib/format";
 import { BasicPixFormType } from "../basic-pix-form";
 import { TransactionKeyType } from "../../../types";
-import { motion } from "framer-motion";
-import { MotionDiv } from "../../../../../components/animations/motion-div";
-
-export const ConfirmReceiverStepFields = [] as const;
 
 export function ConfirmReceiverStep() {
   const { watch } = useFormContext<BasicPixFormType>();
 
   const key = watch("key");
   const keyType = watch("keyType");
-  const amount = watch("amount"); // Assumindo que o valor está em "amount"
+  const amount = watch("amount");
 
   const Item = ({ label, value }: { label: string; value: string }) => (
     <Group justify="space-between" style={{ fontSize: 14 }}>
@@ -49,7 +45,7 @@ export function ConfirmReceiverStep() {
 
       <Divider my="xs" />
 
-      <Stack gap={2}>
+      <Stack gap="sm">
         <Item label="Banco" value="Banco Itaú • 341" />
         <Item label="Agência" value="7384" />
         <Item label="Conta" value="519440-4" />
@@ -70,11 +66,11 @@ export function ConfirmReceiverStep() {
 
       {amount && (
         <>
-          <Divider my="xs" />
           <Paper
             withBorder
             p="md"
             radius="md"
+            mt="lg"
             style={{ backgroundColor: "#f0f4ff" }}
           >
             <Text size="sm" c="dimmed">

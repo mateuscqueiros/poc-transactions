@@ -14,7 +14,12 @@ import {
 import { PageLayout } from "../../components/layout/page-layout";
 import Link from "next/link";
 import { useState } from "react";
-import { BasicPixForm } from "../../features/transactions/forms/basic-pix-form/basic-pix-form";
+import {
+  BasicPixForm,
+  BasicPixFormType,
+} from "../../features/transactions/forms/basic-pix-form/basic-pix-form";
+import axios from "axios";
+import { createTransfer } from "../../features/transactions/api";
 
 const operations = [
   {
@@ -33,6 +38,17 @@ const operations = [
 
 export default function CreatePage() {
   const [pixModalOpen, setPixModalOpen] = useState(false);
+
+  const onSubmit = (values: BasicPixFormType) => {
+    createTransfer(values)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <PageLayout
       title="Área Pix"
@@ -66,9 +82,12 @@ export default function CreatePage() {
           root: {
             height: 800,
           },
+          body: {
+            overflow: "hidden",
+          },
         }}
       >
-        <BasicPixForm />
+        <BasicPixForm onSubmit={onSubmit} />
       </Modal>
     </PageLayout>
   );

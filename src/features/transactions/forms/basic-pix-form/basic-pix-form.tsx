@@ -7,75 +7,65 @@ import {
   ConfirmReceiverStep,
   InputKeyStep,
   KeyTypeStep,
-  ReviewStep,
   TypeValueStep,
 } from "./steps";
-import axios from "axios";
 import { AnimatePresence } from "framer-motion";
 import { MotionDiv } from "../../../../components/animations/motion-div";
 
 export type BasicPixFormType = {
   keyType: string;
   key: string;
-  receiverName: string;
   amount: number;
 };
 
-export function BasicPixForm() {
+export type BasicPixFormProps = {
+  onSubmitAction: (values: BasicPixFormType) => void;
+};
+
+const steps = [
+  {
+    id: "key-type-step",
+    fields: ["keyType"],
+    component: <KeyTypeStep />,
+  },
+  {
+    id: "input-key-step",
+    fields: ["key"],
+    component: <InputKeyStep />,
+  },
+  {
+    id: "type-value-step",
+    fields: ["amount"],
+    component: <TypeValueStep />,
+  },
+  {
+    id: "confirm-receiver-step",
+    fields: [],
+    component: <ConfirmReceiverStep />,
+  },
+];
+
+export function BasicPixForm({ onSubmitAction }: BasicPixFormProps) {
   const [activeStep, setActiveStep] = useState(1);
-  const [animationDirection, setAnimationDirection] = useState(1);
+  const [animationDirection, setAnimationDirection] = useState<"next" | "prev">(
+    "next",
+  );
 
   const methods = useForm<BasicPixFormType>({
     defaultValues: {
       keyType: "",
       key: "",
-      receiverName: "",
       amount: 0,
     },
     mode: "onBlur",
   });
 
-  const steps = [
-    {
-      fields: ["keyType"],
-      component: (
-        <MotionDiv direction={animationDirection} key="key-type-step">
-          <KeyTypeStep />
-        </MotionDiv>
-      ),
-    },
-    {
-      fields: ["key"],
-      component: (
-        <MotionDiv direction={animationDirection} key="input-key-step">
-          <InputKeyStep />
-        </MotionDiv>
-      ),
-    },
-    {
-      fields: ["amount"],
-      component: (
-        <MotionDiv direction={animationDirection} key="type-value-step">
-          <TypeValueStep />
-        </MotionDiv>
-      ),
-    },
-    {
-      fields: ["receiverName"],
-      component: (
-        <MotionDiv direction={animationDirection} key="confirm-receiver-step">
-          <ConfirmReceiverStep />
-        </MotionDiv>
-      ),
-    },
-  ];
-
   const prevStep = () => {
-    setAnimationDirection(-1);
+    setAnimationDirection("prev");
     setActiveStep((s) => s - 1);
   };
   const nextStep = async () => {
-    setAnimationDirection(1);
+    setAnimationDirection("next");
     const fieldsToValidate = steps[activeStep - 1]
       .fields as (keyof BasicPixFormType)[];
 
@@ -84,23 +74,12 @@ export function BasicPixForm() {
     setActiveStep((s) => s + 1);
   };
 
-  const onSubmit = async ({ key, keyType, amount }: BasicPixFormType) => {
-    try {
-      const response = await axios.post("/api/transfer", {
-        key,
-        keyType,
-        amount,
-      });
-      console.log(response.data);
-    } catch (error: any) {
-      console.error(error);
-    }
-  };
-
   return (
     <FormProvider {...methods}>
       <form
-        onSubmit={methods.handleSubmit(onSubmit)}
+        onSubmit={methods.handleSubmit(
+          () => onSubmitAction && onSubmitAction(methods.getValues()),
+        )}
         style={{
           display: "flex",
           flexDirection: "column",
@@ -108,10 +87,22 @@ export function BasicPixForm() {
           minHeight: 400,
         }}
       >
-        <AnimatePresence mode="wait">
+        <AnimatePresence
+          mode="wait"
+          initial={false}
+          custom={animationDirection}
+        >
           {steps.map(
-            ({ component }, index) =>
-              activeStep === index + 1 && <div key={index}>{component}</div>,
+            ({ component, id }, index) =>
+              activeStep === index + 1 && (
+                <MotionDiv
+                  key={id}
+                  motionKey={id}
+                  direction={animationDirection}
+                >
+                  {component}
+                </MotionDiv>
+              ),
           )}
         </AnimatePresence>
 

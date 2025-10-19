@@ -1,3 +1,4 @@
+/* Tipos de uma transação */
 export enum TransactionStatus {
   Processing = 'processing',
   Completed = 'completed',
@@ -26,7 +27,7 @@ export interface TransactionType {
   id: string;
   description: string;
   class: TransactionClass;
-  value: number;
+  amount: number;
   createdAt: Date;
   completedAt?: Date;
   status?: TransactionStatus;
@@ -34,4 +35,17 @@ export interface TransactionType {
   key: string;
 }
 
+/* Tipos para API */
+export type CreateTransactionType = Omit<TransactionType,
+  'id'
+  | 'createdAt'
+  | 'completedAt'
+  | 'status'
+>;
 
+/* Tipos para formulário */
+export type TransactionFormType = {
+  key: string;
+  keyType: TransactionKeyType;
+  amount: number;
+}

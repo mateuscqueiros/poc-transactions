@@ -1,19 +1,21 @@
 import { motion } from "framer-motion";
 
 export type MotionDivProps = {
-  key: string;
-  direction: number;
+  motionKey: string;
+  direction: "next" | "prev";
   children: React.ReactNode;
 };
 
-export function MotionDiv({ key, direction, children }: MotionDivProps) {
+export function MotionDiv({ motionKey, direction, children }: MotionDivProps) {
+  const isNext = direction === "next";
+
   return (
     <motion.div
-      key={key}
-      initial={{ opacity: 0, x: direction > 0 ? 60 : -60 }}
+      key={motionKey}
+      initial={{ opacity: 0, x: isNext ? 80 : -80 }}
       animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: direction > 0 ? -60 : 60 }}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
+      exit={{ opacity: 0, x: isNext ? -80 : 80 }}
+      transition={{ duration: 0.15, ease: "easeInOut" }}
     >
       {children}
     </motion.div>

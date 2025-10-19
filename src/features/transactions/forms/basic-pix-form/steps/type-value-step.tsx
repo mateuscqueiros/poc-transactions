@@ -2,7 +2,6 @@
 
 import { useFormContext } from "react-hook-form";
 import { CurrencyInput } from "../../../../../components/forms/inputs/currency-input";
-import { MotionDiv } from "../../../../../components/animations/motion-div";
 
 export function TypeValueStep() {
   const {
