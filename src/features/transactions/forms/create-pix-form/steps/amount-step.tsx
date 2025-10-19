@@ -3,7 +3,7 @@
 import { useFormContext } from "react-hook-form";
 import { CurrencyInput } from "../../../../../components/forms/inputs/currency-input";
 
-export function TypeValueStep() {
+export function AmountStep() {
   const {
     watch,
     setValue,
@@ -24,6 +24,7 @@ export function TypeValueStep() {
         leftSection="R$"
         placeholder="0,00"
         value={amount ?? ""}
+        size="md"
         onChange={(val) => setValue("amount", val, { shouldValidate: true })}
         error={
           typeof errors.amount?.message === "string"

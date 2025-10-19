@@ -10,7 +10,7 @@ const inputSchema = {
     placeholder: "000.000.000-00",
     mask: "000.000.000-00",
     validation: {
-      required: "Digite seu CPF",
+      required: "Este campo é obrigatório",
       pattern: {
         value: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
         message: "CPF inválido",
@@ -22,7 +22,7 @@ const inputSchema = {
     placeholder: "00.000.000/0000-00",
     mask: "00.000.000/0000-00",
     validation: {
-      required: "Digite seu CNPJ",
+      required: "Este campo é obrigatório",
       pattern: {
         value: /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/,
         message: "CNPJ inválido",
@@ -34,7 +34,7 @@ const inputSchema = {
     placeholder: "(99) 99999-9999",
     mask: "(00) 00000-0000",
     validation: {
-      required: "Digite seu telefone",
+      required: "Este campo é obrigatório",
       pattern: {
         value: /^\(\d{2}\) \d{5}-\d{4}$/,
         message: "Telefone inválido",
@@ -46,7 +46,7 @@ const inputSchema = {
     placeholder: "exemplo@dominio.com",
     mask: "",
     validation: {
-      required: "Digite seu e-mail",
+      required: "Este campo é obrigatório",
       pattern: {
         value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         message: "E-mail inválido",
@@ -58,7 +58,7 @@ const inputSchema = {
     placeholder: "Digite a chave aleatória",
     mask: "",
     validation: {
-      required: "Digite a chave aleatória",
+      required: "Este campo é obrigatório",
       pattern: {
         value: /^.{8,}$/,
         message: "A chave deve ter pelo menos 8 caracteres",
@@ -67,7 +67,7 @@ const inputSchema = {
   },
 };
 
-export function InputKeyStep() {
+export function KeyStep() {
   const {
     register,
     watch,
@@ -101,7 +101,7 @@ export function InputKeyStep() {
       </Text>
 
       <Container mt="sm" p={0}>
-        <Text size="sm" mb={4}>
+        <Text size="md" fw={500} mb={4}>
           {config.label}
         </Text>
 
@@ -110,6 +110,7 @@ export function InputKeyStep() {
           placeholder={config.placeholder}
           component={IMaskInput}
           mask={config.mask || undefined}
+          required
           type={keyType === "email" ? "email" : "text"}
           {...register("key", config.validation)}
           value={keyValue || ""}

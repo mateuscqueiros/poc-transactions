@@ -3,12 +3,7 @@
 import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { StepControls } from "./step-controls";
-import {
-  ConfirmReceiverStep,
-  InputKeyStep,
-  KeyTypeStep,
-  TypeValueStep,
-} from "./steps";
+import { AmountStep, ConfirmStep, KeyStep, KeyTypeStep } from "./steps";
 import { AnimatePresence } from "framer-motion";
 import { MotionDiv } from "../../../../components/animations/motion-div";
 import { TransactionFormType } from "../../types";
@@ -24,19 +19,19 @@ const steps = [
     component: <KeyTypeStep />,
   },
   {
-    id: "input-key-step",
+    id: "key-step",
     fields: ["key"],
-    component: <InputKeyStep />,
+    component: <KeyStep />,
   },
   {
-    id: "type-value-step",
+    id: "amount-step",
     fields: ["amount"],
-    component: <TypeValueStep />,
+    component: <AmountStep />,
   },
   {
-    id: "confirm-receiver-step",
+    id: "confirm-step",
     fields: [],
-    component: <ConfirmReceiverStep />,
+    component: <ConfirmStep />,
   },
 ];
 

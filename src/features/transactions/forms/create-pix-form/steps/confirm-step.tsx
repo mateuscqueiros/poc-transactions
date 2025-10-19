@@ -12,7 +12,7 @@ import {
 import { formatCurrency, formatKeyType } from "../../../lib/format";
 import { TransactionFormType, TransactionKeyType } from "../../../types";
 
-export function ConfirmReceiverStep() {
+export function ConfirmStep() {
   const { watch } = useFormContext<TransactionFormType>();
 
   const key = watch("key");
