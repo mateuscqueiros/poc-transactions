@@ -38,7 +38,7 @@ const inputSchema = {
   },
 };
 
-export function SimpleKeyTypeStep() {
+export function SimpleKeyStep() {
   const {
     register,
     watch,
