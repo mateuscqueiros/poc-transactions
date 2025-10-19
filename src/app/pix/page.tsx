@@ -8,23 +8,21 @@ import {
   Title,
   Modal,
   Group,
-  Text,
-  ScrollArea,
 } from "@mantine/core";
 import { PageLayout } from "../../components/layout/page-layout";
 import Link from "next/link";
 import { useState } from "react";
+import { createTransaction } from "../../features/transactions/api";
 import {
-  BasicPixForm,
-  BasicPixFormType,
-} from "../../features/transactions/forms/basic-pix-form/basic-pix-form";
-import axios from "axios";
-import { createTransfer } from "../../features/transactions/api";
+  TransactionClass,
+  TransactionFormType,
+} from "../../features/transactions/types";
+import { CreatePixForm } from "../../features/transactions/forms/create-pix-form/create-pix-form";
 
 const operations = [
   {
     name: "Digite a chave",
-    url: "/pix/transfer",
+    url: "/pix/transactions",
   },
   {
     name: "Programar",
@@ -39,14 +37,14 @@ const operations = [
 export default function CreatePage() {
   const [pixModalOpen, setPixModalOpen] = useState(false);
 
-  const onSubmit = (values: BasicPixFormType) => {
-    createTransfer(values)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const onSubmit = (values: TransactionFormType) => {
+    createTransaction({
+      ...values,
+      class: TransactionClass.Pix,
+      description: "Transferência para João Souza",
+    })
+      .then(console.log)
+      .catch(console.error);
   };
 
   return (
@@ -79,15 +77,11 @@ export default function CreatePage() {
         opened={pixModalOpen}
         onClose={() => setPixModalOpen(false)}
         styles={{
-          root: {
-            height: 800,
-          },
-          body: {
-            overflow: "hidden",
-          },
+          root: { height: 800 },
+          body: { overflow: "hidden" },
         }}
       >
-        <BasicPixForm onSubmit={onSubmit} />
+        <CreatePixForm onSubmitAction={onSubmit} />
       </Modal>
     </PageLayout>
   );

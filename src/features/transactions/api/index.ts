@@ -1,9 +1,10 @@
-import { api } from "../../../lib/api";
+import { api, ApiResponse } from "../../../lib/api";
+import { CreateTransactionType, TransactionType } from "../types";
 
-export function createTransfer(values: any) {
-  return api.post("/transfer", values);
+export function createTransaction(values: CreateTransactionType) {
+  return api.post("/transactions", values);
 }
 
-export function getTransfers() {
-  return api.get("/transfers");
+export function getTransactions() {
+  return api.get<ApiResponse<TransactionType[]>>("/transactions");
 }

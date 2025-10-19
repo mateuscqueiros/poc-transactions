@@ -46,6 +46,6 @@ export type CreateTransactionType = Omit<TransactionType,
 /* Tipos para formulário */
 export type TransactionFormType = {
   key: string;
-  keyType: TransactionKeyType;
+  keyType: TransactionKeyType | null;
   amount: number;
 }

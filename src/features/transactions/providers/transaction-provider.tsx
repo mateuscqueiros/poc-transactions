@@ -1,7 +1,14 @@
 "use client";
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 import { TransactionType } from "../types";
 import { transactionsMockData } from "./mock-data";
+import { getTransactions } from "../api";
 
 interface TransactionsContextType {
   data: TransactionType[];
@@ -16,6 +23,18 @@ const TransactionsContext = createContext<TransactionsContextType | undefined>(
 export function TransactionsProvider({ children }: { children: ReactNode }) {
   const [transactions, setTransactions] =
     useState<TransactionType[]>(transactionsMockData);
+
+  useEffect(() => {
+    getTransactions()
+      .then((res) => {
+        console.log(res.data.data);
+        setTransactions(res.data.data);
+      })
+      .catch((err) => {
+        setTransactions([]);
+        console.error(err);
+      });
+  }, []);
 
   function addTransaction(transaction: TransactionType) {
     setTransactions((prev) => [transaction, ...prev]);

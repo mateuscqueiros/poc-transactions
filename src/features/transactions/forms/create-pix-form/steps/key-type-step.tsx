@@ -1,29 +1,30 @@
 import { Card, Grid, Group, Radio, Text } from "@mantine/core";
 import { useFormContext } from "react-hook-form";
-import { BasicPixFormType } from "../basic-pix-form";
+import { TransactionFormType, TransactionKeyType } from "../../../types";
 
 const keyTypes = [
-  { name: "CPF", value: "cpf" },
-  { name: "CNPJ", value: "cnpj" },
-  { name: "Telefone", value: "phone" },
-  { name: "E-mail", value: "email" },
-  { name: "Chave aleatória", value: "random" },
+  { name: "CPF", value: TransactionKeyType.CPF },
+  { name: "CNPJ", value: TransactionKeyType.CNPJ },
+  { name: "Telefone", value: TransactionKeyType.Phone },
+  { name: "E-mail", value: TransactionKeyType.Email },
+  { name: "Chave aleatória", value: TransactionKeyType.Random },
 ];
 
 export function KeyTypeStep() {
   const {
-    register,
     watch,
     setValue,
-    formState: { errors },
     resetField,
-  } = useFormContext<BasicPixFormType>();
+    formState: { errors },
+    register,
+  } = useFormContext<TransactionFormType>();
+
   const keyType = watch("keyType");
 
   register("keyType", { required: "Selecione um tipo de chave" });
 
-  const handleChange = (v: string) => {
-    setValue("keyType", v);
+  const handleChange = (value: TransactionKeyType) => {
+    setValue("keyType", value);
     resetField("key");
   };
 
@@ -33,7 +34,11 @@ export function KeyTypeStep() {
         Escolha o tipo da chave PIX
       </Text>
 
-      <Radio.Group value={keyType} onChange={handleChange} name="keyType">
+      <Radio.Group
+        value={keyType}
+        onChange={(v: string) => handleChange(v as TransactionKeyType)}
+        name="keyType"
+      >
         <Grid>
           {keyTypes.map(({ name, value }) => (
             <Grid.Col span={6} key={value}>

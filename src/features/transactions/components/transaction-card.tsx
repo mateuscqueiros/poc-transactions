@@ -27,7 +27,7 @@ export function TransactionCard({ data }: TransactionCardProps) {
         </Flex>
       </Flex>
       <div>
-        <Text fw={700}>{formatCurrency(data.value, "pt-BR")}</Text>
+        <Text fw={700}>{formatCurrency(data.amount, "pt-BR")}</Text>
       </div>
     </Flex>
   );

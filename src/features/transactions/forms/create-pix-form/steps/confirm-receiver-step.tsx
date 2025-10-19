@@ -7,13 +7,13 @@ import {
   Divider,
   Title,
   Paper,
+  Container,
 } from "@mantine/core";
 import { formatCurrency, formatKeyType } from "../../../lib/format";
-import { BasicPixFormType } from "../basic-pix-form";
-import { TransactionKeyType } from "../../../types";
+import { TransactionFormType, TransactionKeyType } from "../../../types";
 
 export function ConfirmReceiverStep() {
-  const { watch } = useFormContext<BasicPixFormType>();
+  const { watch } = useFormContext<TransactionFormType>();
 
   const key = watch("key");
   const keyType = watch("keyType");
@@ -27,7 +27,7 @@ export function ConfirmReceiverStep() {
   );
 
   return (
-    <>
+    <Container>
       <Text size="lg" fw={500} mb="sm">
         Confirmar destinatário
       </Text>
@@ -82,6 +82,6 @@ export function ConfirmReceiverStep() {
           </Paper>
         </>
       )}
-    </>
+    </Container>
   );
 }

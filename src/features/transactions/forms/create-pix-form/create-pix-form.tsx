@@ -11,15 +11,10 @@ import {
 } from "./steps";
 import { AnimatePresence } from "framer-motion";
 import { MotionDiv } from "../../../../components/animations/motion-div";
+import { TransactionFormType } from "../../types";
 
-export type BasicPixFormType = {
-  keyType: string;
-  key: string;
-  amount: number;
-};
-
-export type BasicPixFormProps = {
-  onSubmitAction: (values: BasicPixFormType) => void;
+export type CreatePixFormProps = {
+  onSubmitAction: (values: TransactionFormType) => void;
 };
 
 const steps = [
@@ -45,15 +40,15 @@ const steps = [
   },
 ];
 
-export function BasicPixForm({ onSubmitAction }: BasicPixFormProps) {
+export function CreatePixForm({ onSubmitAction }: CreatePixFormProps) {
   const [activeStep, setActiveStep] = useState(1);
   const [animationDirection, setAnimationDirection] = useState<"next" | "prev">(
     "next",
   );
 
-  const methods = useForm<BasicPixFormType>({
+  const methods = useForm<TransactionFormType>({
     defaultValues: {
-      keyType: "",
+      keyType: null,
       key: "",
       amount: 0,
     },
@@ -67,7 +62,7 @@ export function BasicPixForm({ onSubmitAction }: BasicPixFormProps) {
   const nextStep = async () => {
     setAnimationDirection("next");
     const fieldsToValidate = steps[activeStep - 1]
-      .fields as (keyof BasicPixFormType)[];
+      .fields as (keyof TransactionFormType)[];
 
     const isValid = await methods.trigger(fieldsToValidate);
     if (!isValid) return;

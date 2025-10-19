@@ -3,7 +3,7 @@
 import { Input, Text, Container } from "@mantine/core";
 import { useFormContext } from "react-hook-form";
 import { IMaskInput } from "react-imask";
-import { BasicPixFormType } from "../basic-pix-form";
+import { TransactionFormType } from "../../../types";
 
 const inputSchema = {
   cpf: {
@@ -74,7 +74,7 @@ export function InputKeyStep() {
     watch,
     setValue,
     formState: { errors },
-  } = useFormContext<BasicPixFormType>();
+  } = useFormContext<TransactionFormType>();
   const keyType = watch("keyType");
   const keyValue = watch("key");
 
