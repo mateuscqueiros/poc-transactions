@@ -2,6 +2,7 @@
 
 import { useFormContext } from "react-hook-form";
 import { CurrencyInput } from "../../../../../components/forms/inputs/currency-input";
+import { Textarea } from "@mantine/core";
 
 export function AmountStep() {
   const {
@@ -11,11 +12,14 @@ export function AmountStep() {
     register,
   } = useFormContext<any>();
   const amount = watch("amount");
+  const description = watch("description");
 
   register("amount", {
     required: "O valor é obrigatório",
     min: { value: 0.01, message: "O valor mínimo é R$ 0,01" },
   });
+
+  register("description");
 
   return (
     <>
@@ -31,6 +35,13 @@ export function AmountStep() {
             ? errors.amount.message
             : undefined
         }
+      />
+
+      <Textarea
+        label="Descrição"
+        placeholder="Opcional"
+        value={description ?? ""}
+        onChange={(e) => setValue("description", e.currentTarget.value)}
       />
     </>
   );

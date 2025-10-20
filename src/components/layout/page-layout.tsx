@@ -1,9 +1,9 @@
 import { Flex, Title } from "@mantine/core";
-import { ReactElement } from "react";
+import { ReactNode } from "react";
 
 export type PageLayoutProps = {
   title?: string;
-  description?: ReactElement;
+  description?: ReactNode;
   size?: "sm" | "md" | "lg";
 } & React.PropsWithChildren;
 
@@ -14,13 +14,14 @@ export function PageLayout({
   children,
 }: PageLayoutProps) {
   const pageWidth = size === "sm" ? 800 : size === "md" ? 1200 : 1500;
+
   return (
-    <Flex
-      direction="column"
-      style={{ maxWidth: pageWidth, margin: "0 auto" }}
-      className="flex flex-col h-screen"
-    >
-      {title && <Title order={1}>{title}</Title>}
+    <Flex direction="column" style={{ maxWidth: pageWidth, margin: "0 auto" }}>
+      {title && (
+        <Title mb={20} order={1}>
+          {title}
+        </Title>
+      )}
       {description && <p>{description}</p>}
       {children}
     </Flex>

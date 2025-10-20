@@ -1,6 +1,6 @@
 import Axios from "axios"
 
-export type ApiResponse<T> = {
+export type ApiResponse<T = any> = {
   success: boolean
   message: string
   data: T

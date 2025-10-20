@@ -13,8 +13,8 @@ export function StepControls({
   onNext,
   onPrev,
 }: StepControlsProps) {
-  const isFirstStep = active === 1;
-  const isLastStep = active === total;
+  const isFirstStep = active === 0;
+  const isLastStep = active === total - 1;
 
   return (
     <div style={{ marginTop: "2rem" }}>
@@ -30,7 +30,13 @@ export function StepControls({
 
         <div>
           {!isLastStep ? (
-            <Button type="button" onClick={onNext}>
+            <Button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                onNext();
+              }}
+            >
               Continuar
             </Button>
           ) : (

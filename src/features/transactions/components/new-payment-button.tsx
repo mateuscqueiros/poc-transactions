@@ -1,17 +1,19 @@
 "use client";
 
 import { Affix, Button } from "@mantine/core";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useState } from "react";
+import { CreateTransactionModal } from "./modals/create-transaction-modal";
 
 export function NewPaymentButton() {
-  const router = useRouter();
+  const [opened, setOpened] = useState(false);
 
   return (
     <Affix position={{ bottom: 30, right: 30 }}>
       <Button
-        onClick={() => router.replace("/pix")}
         radius="xl"
+        size="lg"
+        onClick={() => setOpened(true)}
         leftSection={
           <Image
             width={16}
@@ -23,6 +25,8 @@ export function NewPaymentButton() {
       >
         Novo Pix
       </Button>
+
+      <CreateTransactionModal opened={opened} setOpened={setOpened} />
     </Affix>
   );
 }

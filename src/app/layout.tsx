@@ -9,6 +9,7 @@ import { theme } from "../lib/theme";
 import { Metadata } from "next";
 import { Layout } from "../components/layout";
 import { TransactionsProvider } from "../features/transactions/providers/transaction-provider";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Mantine Next.js template",
@@ -30,6 +31,8 @@ export default function RootLayout({ children }: { children: any }) {
         <MantineProvider theme={theme}>
           <TransactionsProvider>
             <Layout>{children}</Layout>
+
+            <Toaster richColors />
           </TransactionsProvider>
         </MantineProvider>
       </body>

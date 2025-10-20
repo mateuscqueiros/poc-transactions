@@ -13,30 +13,14 @@ export type CreatePixFormProps = {
 };
 
 const steps = [
-  {
-    id: "key-type-step",
-    fields: ["keyType"],
-    component: <KeyTypeStep />,
-  },
-  {
-    id: "key-step",
-    fields: ["key"],
-    component: <KeyStep />,
-  },
-  {
-    id: "amount-step",
-    fields: ["amount"],
-    component: <AmountStep />,
-  },
-  {
-    id: "confirm-step",
-    fields: [],
-    component: <ConfirmStep />,
-  },
+  { id: "key-type-step", fields: ["keyType"], component: <KeyTypeStep /> },
+  { id: "key-step", fields: ["key"], component: <KeyStep /> },
+  { id: "amount-step", fields: ["amount"], component: <AmountStep /> },
+  { id: "confirm-step", fields: [], component: <ConfirmStep /> },
 ];
 
 export function CreatePixForm({ onSubmitAction }: CreatePixFormProps) {
-  const [activeStep, setActiveStep] = useState(1);
+  const [activeStep, setActiveStep] = useState(0);
   const [animationDirection, setAnimationDirection] = useState<"next" | "prev">(
     "next",
   );
@@ -46,6 +30,7 @@ export function CreatePixForm({ onSubmitAction }: CreatePixFormProps) {
       keyType: null,
       key: "",
       amount: 0,
+      description: "",
     },
     mode: "onBlur",
   });
@@ -54,11 +39,11 @@ export function CreatePixForm({ onSubmitAction }: CreatePixFormProps) {
     setAnimationDirection("prev");
     setActiveStep((s) => s - 1);
   };
+
   const nextStep = async () => {
     setAnimationDirection("next");
-    const fieldsToValidate = steps[activeStep - 1]
+    const fieldsToValidate = steps[activeStep]
       .fields as (keyof TransactionFormType)[];
-
     const isValid = await methods.trigger(fieldsToValidate);
     if (!isValid) return;
     setActiveStep((s) => s + 1);
@@ -84,7 +69,7 @@ export function CreatePixForm({ onSubmitAction }: CreatePixFormProps) {
         >
           {steps.map(
             ({ component, id }, index) =>
-              activeStep === index + 1 && (
+              activeStep === index && (
                 <MotionDiv
                   key={id}
                   motionKey={id}

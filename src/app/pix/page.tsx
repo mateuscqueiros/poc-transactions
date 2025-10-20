@@ -1,96 +1,78 @@
 "use client";
 
-import {
-  Button,
-  Card,
-  Grid,
-  GridCol,
-  Title,
-  Modal,
-  Group,
-} from "@mantine/core";
+import { Button, Card, Grid, Group, Text, Flex } from "@mantine/core";
 import { PageLayout } from "../../components/layout/page-layout";
-import Link from "next/link";
 import { useState } from "react";
-import { createTransaction } from "../../features/transactions/api";
+import { CreateTransactionModal } from "../../features/transactions/components/modals/create-transaction-modal";
 import {
-  TransactionClass,
-  TransactionFormType,
-} from "../../features/transactions/types";
-import { CreatePixForm } from "../../features/transactions/forms/create-pix-form/create-pix-form";
-
-const operations = [
-  {
-    name: "Digite a chave",
-    url: "/pix/transactions",
-  },
-  {
-    name: "Programar",
-    url: "/pix/schedule",
-  },
-  {
-    name: "Escanear QR Code",
-    url: "/pix/scan",
-  },
-];
+  IconBolt,
+  IconArrowUpRight,
+  IconArrowDownLeft,
+} from "@tabler/icons-react";
 
 export default function CreatePage() {
   const [pixModalOpen, setPixModalOpen] = useState(false);
 
-  const onSubmit = (values: TransactionFormType) => {
-    createTransaction({
-      ...values,
-      class: TransactionClass.Pix,
-      description: "Transferência para João Souza",
-    })
-      .then(console.log)
-      .catch(console.error);
-  };
+  const defaultContainerSize = { base: 12, md: 6 };
 
   return (
     <PageLayout
       title="Área Pix"
-      description={
-        <>Bem vindo ao Área Pix, onde você pode realizar transferências.</>
-      }
+      description="Bem-vindo à Área Pix, onde você pode realizar transferências rápidas e gerencia pagamentos."
     >
-      <Title order={2} style={{ marginBottom: "1rem" }}>
-        Selecione a operação
-      </Title>
-      <Grid>
-        {operations.map((props) => (
-          <GridCol key={props.name} span={6}>
-            <OperationCard {...props} />
-          </GridCol>
-        ))}
+      <Grid gutter="md" mb="lg">
+        <Grid.Col span={defaultContainerSize}>
+          <Card
+            withBorder
+            p="lg"
+            style={{ cursor: "pointer" }}
+            onClick={() => setPixModalOpen(true)}
+          >
+            <Flex align="center" gap="md">
+              <IconBolt size={32} color="#1E90FF" />
+              <div>
+                <Text fw={600}>Pix</Text>
+                <Text size="sm" c="dimmed">
+                  Transferência instantânea
+                </Text>
+              </div>
+            </Flex>
+          </Card>
+        </Grid.Col>
+
+        <Grid.Col span={defaultContainerSize}>
+          <Card withBorder p="lg" style={{ cursor: "pointer" }}>
+            <Flex align="center" gap="md">
+              <IconArrowUpRight size={32} color="#52C41A" />
+              <div>
+                <Text fw={600}>Depósito</Text>
+                <Text size="sm" c="dimmed">
+                  Adicionar saldo à conta
+                </Text>
+              </div>
+            </Flex>
+          </Card>
+        </Grid.Col>
+
+        <Grid.Col span={defaultContainerSize}>
+          <Card withBorder p="lg" style={{ cursor: "pointer" }}>
+            <Flex align="center" gap="md">
+              <IconArrowDownLeft size={32} color="#FF4D4F" />
+              <div>
+                <Text fw={600}>Débito/Transferência</Text>
+                <Text size="sm" c="dimmed">
+                  Enviar dinheiro para outra conta
+                </Text>
+              </div>
+            </Flex>
+          </Card>
+        </Grid.Col>
       </Grid>
-      <Group mt="xl">
-        <Button size="sm" onClick={() => setPixModalOpen(true)}>
-          Abrir modal
-        </Button>
-      </Group>
 
-      <Modal
-        size="lg"
-        mih={800}
-        title="Transferir via PIX"
+      <CreateTransactionModal
         opened={pixModalOpen}
-        onClose={() => setPixModalOpen(false)}
-        styles={{
-          root: { height: 800 },
-          body: { overflow: "hidden" },
-        }}
-      >
-        <CreatePixForm onSubmitAction={onSubmit} />
-      </Modal>
+        setOpened={setPixModalOpen}
+      />
     </PageLayout>
-  );
-}
-
-function OperationCard({ name, url }: { name: string; url: string }) {
-  return (
-    <Card withBorder component={Link} href={url}>
-      <div>{name}</div>
-    </Card>
   );
 }
