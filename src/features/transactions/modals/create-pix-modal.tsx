@@ -1,18 +1,15 @@
 import { Modal } from "@mantine/core";
-import { CreatePixForm } from "../../forms/create-pix-form/create-pix-form";
-import { createTransaction } from "../../api";
-import { TransactionClass, TransactionFormType } from "../../types";
 import { toast } from "sonner";
+import { createTransaction } from "../api";
+import { TransactionClass, TransactionFormType } from "../types";
+import { CreatePixForm } from "../forms/create-pix-form";
 
 export type CreatePixModalProps = {
   opened: boolean;
   setOpened: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export function CreateTransactionModal({
-  opened,
-  setOpened,
-}: CreatePixModalProps) {
+export function CreatePixModal({ opened, setOpened }: CreatePixModalProps) {
   const onSubmit = (values: TransactionFormType) => {
     createTransaction({
       ...values,

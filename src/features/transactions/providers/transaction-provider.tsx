@@ -27,7 +27,6 @@ export function TransactionsProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     getTransactions()
       .then((res) => {
-        console.log(res.data.data);
         setTransactions(res.data.data);
       })
       .catch((err) => {

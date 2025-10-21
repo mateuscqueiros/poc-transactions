@@ -12,8 +12,8 @@ import { TransactionsProvider } from "../features/transactions/providers/transac
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
-  title: "Mantine Next.js template",
-  description: "I am using Mantine with Next.js!",
+  title: "POC Pix",
+  description: "Aplicativo de demonstração para o POC Pix",
 };
 
 export default function RootLayout({ children }: { children: any }) {
@@ -31,7 +31,6 @@ export default function RootLayout({ children }: { children: any }) {
         <MantineProvider theme={theme}>
           <TransactionsProvider>
             <Layout>{children}</Layout>
-
             <Toaster richColors />
           </TransactionsProvider>
         </MantineProvider>

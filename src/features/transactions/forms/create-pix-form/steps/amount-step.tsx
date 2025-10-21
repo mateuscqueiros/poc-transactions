@@ -2,7 +2,7 @@
 
 import { useFormContext } from "react-hook-form";
 import { CurrencyInput } from "../../../../../components/forms/inputs/currency-input";
-import { Textarea } from "@mantine/core";
+import { Textarea, Text, Container } from "@mantine/core";
 
 export function AmountStep() {
   const {
@@ -23,8 +23,11 @@ export function AmountStep() {
 
   return (
     <>
+      <Text size="lg" fw={500} mb={4}>
+        Valor da transação
+      </Text>
+
       <CurrencyInput
-        label="Valor"
         leftSection="R$"
         placeholder="0,00"
         value={amount ?? ""}
@@ -35,6 +38,7 @@ export function AmountStep() {
             ? errors.amount.message
             : undefined
         }
+        mb={6}
       />
 
       <Textarea

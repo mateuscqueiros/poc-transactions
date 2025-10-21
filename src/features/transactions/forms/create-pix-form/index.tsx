@@ -3,7 +3,13 @@
 import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { StepControls } from "./step-controls";
-import { AmountStep, ConfirmStep, KeyStep, KeyTypeStep } from "./steps";
+import {
+  AmountStep,
+  ConfirmStep,
+  KeyStep,
+  KeyTypeStep,
+  SimpleKeyStep,
+} from "./steps";
 import { AnimatePresence } from "framer-motion";
 import { MotionDiv } from "../../../../components/animations/motion-div";
 import { TransactionFormType } from "../../types";
@@ -14,7 +20,7 @@ export type CreatePixFormProps = {
 
 const steps = [
   { id: "key-type-step", fields: ["keyType"], component: <KeyTypeStep /> },
-  { id: "key-step", fields: ["key"], component: <KeyStep /> },
+  { id: "key-step", fields: ["key"], component: <SimpleKeyStep /> },
   { id: "amount-step", fields: ["amount"], component: <AmountStep /> },
   { id: "confirm-step", fields: [], component: <ConfirmStep /> },
 ];

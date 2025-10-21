@@ -34,7 +34,7 @@ export default function HomePage() {
             justifyContent: "center",
           }}
         >
-          <Text color="dimmed">Em breve...</Text>
+          <Text c="dimmed">Exemplo</Text>
         </Box>
       </FloatingCard>
     </GridCol>
@@ -46,7 +46,7 @@ export default function HomePage() {
       <Grid gutter="md">
         <GridCol span={defaultContainerSize}>
           <FloatingCard pb={0} title="Transações" pr={0}>
-            <ScrollArea style={{ height: 200 }} offsetScrollbars>
+            <ScrollArea style={{ height: 230 }} offsetScrollbars>
               <TransactionList data={transactions} />
             </ScrollArea>
           </FloatingCard>

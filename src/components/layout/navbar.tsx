@@ -16,7 +16,7 @@ import { usePathname } from "next/navigation";
 const data = [
   { link: "/", label: "Início", icon: IconHome2 },
   { link: "/history", label: "Histórico", icon: IconClock },
-  { link: "/pix", label: "Área Pix", icon: IconTransfer },
+  { link: "/transactions", label: "Transações", icon: IconTransfer },
 ];
 
 interface NavbarProps {

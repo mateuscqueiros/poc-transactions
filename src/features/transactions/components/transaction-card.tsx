@@ -54,7 +54,7 @@ export function TransactionCard({ data }: TransactionCardProps) {
             <Text size="sm" c="dimmed" truncate>
               {dayjs(data.completedAt).format("HH:mm")}
             </Text>
-            <Text size="sm" color="dimmed">
+            <Text size="sm" c="dimmed">
               •
             </Text>
             <Text size="sm" c="dimmed" truncate>

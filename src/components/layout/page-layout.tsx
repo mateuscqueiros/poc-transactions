@@ -1,4 +1,4 @@
-import { Flex, Title } from "@mantine/core";
+import { Flex, Title, Text } from "@mantine/core";
 import { ReactNode } from "react";
 
 export type PageLayoutProps = {
@@ -22,7 +22,7 @@ export function PageLayout({
           {title}
         </Title>
       )}
-      {description && <p>{description}</p>}
+      {description && <Text mb={20}>{description}</Text>}
       {children}
     </Flex>
   );

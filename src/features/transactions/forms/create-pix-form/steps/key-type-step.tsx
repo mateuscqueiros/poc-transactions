@@ -1,4 +1,4 @@
-import { Card, Grid, Group, Radio, Text } from "@mantine/core";
+import { Card, Container, Grid, Group, Radio, Text } from "@mantine/core";
 import { useFormContext } from "react-hook-form";
 import { TransactionFormType, TransactionKeyType } from "../../../types";
 
@@ -34,36 +34,38 @@ export function KeyTypeStep() {
         Escolha o tipo da chave PIX
       </Text>
 
-      <Radio.Group
-        value={keyType}
-        onChange={(v: string) => handleChange(v as TransactionKeyType)}
-        name="keyType"
-      >
-        <Grid>
-          {keyTypes.map(({ name, value }) => (
-            <Grid.Col span={6} key={value}>
-              <Card
-                withBorder
-                radius="md"
-                p="md"
-                style={{ cursor: "pointer" }}
-                onClick={() => handleChange(value)}
-              >
-                <Group justify="space-between" align="center">
-                  <Text fw={keyType === value ? 600 : 400}>{name}</Text>
-                  <Radio value={value} />
-                </Group>
-              </Card>
-            </Grid.Col>
-          ))}
-        </Grid>
-      </Radio.Group>
+      <Container p={0}>
+        <Radio.Group
+          value={keyType}
+          onChange={(v: string) => handleChange(v as TransactionKeyType)}
+          name="keyType"
+        >
+          <Grid>
+            {keyTypes.map(({ name, value }) => (
+              <Grid.Col span={6} key={value}>
+                <Card
+                  withBorder
+                  radius="md"
+                  p="md"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleChange(value)}
+                >
+                  <Group justify="space-between" align="center">
+                    <Text fw={keyType === value ? 600 : 400}>{name}</Text>
+                    <Radio value={value} />
+                  </Group>
+                </Card>
+              </Grid.Col>
+            ))}
+          </Grid>
+        </Radio.Group>
 
-      {errors.keyType && (
-        <Text c="red" size="sm" mt="xs">
-          {errors.keyType.message}
-        </Text>
-      )}
+        {errors.keyType && (
+          <Text c="red" size="sm" mt="xs">
+            {errors.keyType.message}
+          </Text>
+        )}
+      </Container>
     </>
   );
 }

@@ -1,14 +1,11 @@
 "use client";
 
-import { Button, Card, Grid, Group, Text, Flex } from "@mantine/core";
+import { Card, Grid, Text, Flex } from "@mantine/core";
 import { PageLayout } from "../../components/layout/page-layout";
 import { useState } from "react";
-import { CreateTransactionModal } from "../../features/transactions/components/modals/create-transaction-modal";
-import {
-  IconBolt,
-  IconArrowUpRight,
-  IconArrowDownLeft,
-} from "@tabler/icons-react";
+import { IconArrowUpRight, IconArrowDownLeft } from "@tabler/icons-react";
+import { IconPix } from "../../components/icons/icon-pix";
+import { CreatePixModal } from "../../features/transactions/modals/create-pix-modal";
 
 export default function CreatePage() {
   const [pixModalOpen, setPixModalOpen] = useState(false);
@@ -29,7 +26,7 @@ export default function CreatePage() {
             onClick={() => setPixModalOpen(true)}
           >
             <Flex align="center" gap="md">
-              <IconBolt size={32} color="#1E90FF" />
+              <IconPix color="#1E90FF" />
               <div>
                 <Text fw={600}>Pix</Text>
                 <Text size="sm" c="dimmed">
@@ -69,10 +66,7 @@ export default function CreatePage() {
         </Grid.Col>
       </Grid>
 
-      <CreateTransactionModal
-        opened={pixModalOpen}
-        setOpened={setPixModalOpen}
-      />
+      <CreatePixModal opened={pixModalOpen} setOpened={setPixModalOpen} />
     </PageLayout>
   );
 }
