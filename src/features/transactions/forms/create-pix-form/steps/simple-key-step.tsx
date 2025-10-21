@@ -2,7 +2,7 @@
 
 import { Input, Text, Container } from "@mantine/core";
 import { useFormContext } from "react-hook-form";
-import { TransactionFormType } from "../../../types";
+import { TransactionFormType, TransactionKeyType } from "../../../types";
 import { useEffect } from "react";
 import { simpleInputSchema as inputSchema } from "./input-schemas";
 

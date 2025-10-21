@@ -5,8 +5,6 @@ import { TransactionList } from "../features/transactions/components/transaction
 import { useTransactions } from "../features/transactions/providers/transaction-provider";
 import { Grid, GridCol, ScrollArea, Text, Box } from "@mantine/core";
 
-export const dynamic = "force-dynamic";
-
 export default function HomePage() {
   const { data: transactions } = useTransactions();
 
@@ -45,8 +43,8 @@ export default function HomePage() {
       <h1>Home Page</h1>
       <Grid gutter="md">
         <GridCol span={defaultContainerSize}>
-          <FloatingCard pb={0} title="Transações" pr={0}>
-            <ScrollArea style={{ height: 230 }} offsetScrollbars>
+          <FloatingCard mah={250} pb={0} title="Transações" pr={0}>
+            <ScrollArea style={{ height: 235 }} offsetScrollbars>
               <TransactionList data={transactions} />
             </ScrollArea>
           </FloatingCard>

@@ -2,7 +2,7 @@
 
 import { useFormContext } from "react-hook-form";
 import { CurrencyInput } from "../../../../../components/forms/inputs/currency-input";
-import { Textarea, Text, Container } from "@mantine/core";
+import { Textarea, Text } from "@mantine/core";
 
 export function AmountStep() {
   const {
